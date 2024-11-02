@@ -1,0 +1,33 @@
+version: '3.9'
+networks:
+  lanchonete-network:
+    driver: bridge
+
+services:
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    logging:
+      options:
+        max-size: 1g
+    ports:
+      - '27017:27017'
+    networks:
+      - lanchonete-network
+    restart: on-failure
+
+  application:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: lanchonete-apiproduto:latest
+    container_name: lanchonete-apiproduto
+    depends_on:
+      - mongodb
+    environment:
+      - spring.profiles.active=dev
+    ports:
+      - "8080:8080"
+    networks:
+      - lanchonete-network
+    restart: on-failure
