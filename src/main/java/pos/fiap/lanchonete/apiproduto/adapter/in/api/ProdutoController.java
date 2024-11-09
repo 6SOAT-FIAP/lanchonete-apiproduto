@@ -1,11 +1,5 @@
 package pos.fiap.lanchonete.apiproduto.adapter.in.api;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -19,10 +13,8 @@ import pos.fiap.lanchonete.apiproduto.port.ProdutoUseCasePort;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.*;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static pos.fiap.lanchonete.apiproduto.domain.enums.CategoriaEnum.getCategoriaByLabel;
 
-@Tag(name = "Produto", description = "APIs referente ao Produto")
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/produto")
@@ -32,12 +24,6 @@ public class ProdutoController {
     private final ProdutoDtoMapper dtoMapper;
     private final ProdutoUseCasePort produtoUseCasePort;
 
-    @Operation(summary = "Cadastrar um produto",
-            description = "Cadastra um produto informando o nome, categoria, descricao e url da imagem.")
-    @ApiResponses({
-            @ApiResponse(responseCode = "201", content = {@Content(schema = @Schema(implementation = ProdutoResponseDto.class), mediaType = APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "404", content = {@Content(schema = @Schema())}),
-            @ApiResponse(responseCode = "500", content = {@Content(schema = @Schema())})})
     @ResponseStatus(CREATED)
     @PostMapping
     public ResponseEntity<ProdutoResponseDto> cadastrar(@RequestBody ProdutoRequestDto produtoRequest) {
@@ -53,16 +39,9 @@ public class ProdutoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(produtoResponse);
     }
 
-
-    @Operation(summary = "Alterar um produto",
-            description = "Altera um produto informando o id e o que desejar alterar.")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = ProdutoResponseDto.class), mediaType = APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "404", content = {@Content(schema = @Schema())}),
-            @ApiResponse(responseCode = "500", content = {@Content(schema = @Schema())})})
     @ResponseStatus(OK)
     @PutMapping("/{id}")
-    public ResponseEntity<ProdutoResponseDto> editar(@PathVariable String id, @RequestBody ProdutoRequestDto produtoRequestDto) {
+    public ResponseEntity<ProdutoResponseDto> editar(@PathVariable Long id, @RequestBody ProdutoRequestDto produtoRequestDto) {
         log.info("Produto request: {}", produtoRequestDto);
 
         var dadosProduto = dtoMapper.toDadosProdutoFromRequestDto(produtoRequestDto);
@@ -75,15 +54,9 @@ public class ProdutoController {
         return ResponseEntity.status(OK).body(produtoResponse);
     }
 
-    @Operation(summary = "Remove um produto",
-            description = "Remove um produto informando o id.")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(), mediaType = APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "404", content = {@Content(schema = @Schema())}),
-            @ApiResponse(responseCode = "500", content = {@Content(schema = @Schema())})})
     @ResponseStatus(OK)
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> remover(@PathVariable String id) {
+    public ResponseEntity<String> remover(@PathVariable Long id) {
         log.info("Produto id: {}", id);
 
         var produto = produtoUseCasePort.remover(id);
@@ -96,12 +69,6 @@ public class ProdutoController {
         return ResponseEntity.status(OK).body("Produto removido com sucesso");
     }
 
-    @Operation(summary = "Obter produtos por categoria",
-            description = "Lista todos produtos de uma determinada categoria.")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = ProdutoResponseDto.class), mediaType = APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "404", content = {@Content(schema = @Schema())}),
-            @ApiResponse(responseCode = "500", content = {@Content(schema = @Schema())})})
     @ResponseStatus(OK)
     @GetMapping("/{categoria}")
     public ResponseEntity<List<ProdutoResponseDto>> buscar(@PathVariable String categoria) {

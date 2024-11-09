@@ -17,6 +17,7 @@ import java.net.URL;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProdutoRequestDto implements Serializable {
+
     @Serial
     private static final long serialVersionUID = -7187216715845710615L;
     private String id;
@@ -25,4 +26,5 @@ public class ProdutoRequestDto implements Serializable {
     private Double preco;
     private String descricao;
     private URL imagem;
+
 }

@@ -6,15 +6,15 @@ import pos.fiap.lanchonete.apiproduto.domain.model.entity.Produto;
 import java.util.List;
 import java.util.Optional;
 
-public interface ProdutoMongoAdapterPort {
+public interface ProdutoMySQLAdapterPort {
 
     Produto cadastrarProduto(Produto produto);
 
-    Produto alterarProduto(String id, Produto produto);
+    Produto alterarProduto(Long id, Produto produto);
 
-    void removerProduto(String id);
+    void removerProduto(Long id);
 
     List<Produto> buscarProdutoPorCategoria(CategoriaEnum categoria);
 
-    Optional<Produto> buscarPorId(String id);
+    Optional<Produto> buscarPorId(Long id);
 }

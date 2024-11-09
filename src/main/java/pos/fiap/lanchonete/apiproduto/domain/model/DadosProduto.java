@@ -14,7 +14,6 @@ public class DadosProduto implements Serializable {
 
     @Serial
     private static final long serialVersionUID = -3716558214287447199L;
-
     private String id;
     private String nome;
     private CategoriaEnum categoria;

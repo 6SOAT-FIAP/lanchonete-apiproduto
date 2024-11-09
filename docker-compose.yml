@@ -1,33 +1,13 @@
-version: '3.9'
-networks:
-  lanchonete-network:
-    driver: bridge
-
+version: '3.3'
 services:
-  mongodb:
-    image: mongo
-    container_name: mongodb
+  mysql:
+    image: mysql:8.0.23
+    container_name: mysql
+    ports:
+      - '3306:3306'
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    restart: on-failure
     logging:
       options:
         max-size: 1g
-    ports:
-      - '27017:27017'
-    networks:
-      - lanchonete-network
-    restart: on-failure
-
-  application:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: lanchonete-apiproduto:latest
-    container_name: lanchonete-apiproduto
-    depends_on:
-      - mongodb
-    environment:
-      - spring.profiles.active=dev
-    ports:
-      - "8080:8080"
-    networks:
-      - lanchonete-network
-    restart: on-failure

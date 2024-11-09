@@ -1,4 +1,4 @@
-# Tech Challenge - Pós Tech Software Architecture
+# API de Produtos
 
 ## O que é o projeto
 
@@ -28,16 +28,10 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
 ## Como iniciar o projeto localmente
 
-### Docker compose para subir os containers da aplicação e do banco de dados
+Execute o docker compose para subir o banco de dados:
 
 ```bash
 docker-compose up -d
-```
-
-### <img src="https://user-images.githubusercontent.com/25181517/186711335-a3729606-5a78-4496-9a36-06efcc74f800.png" width=30> Swagger
-
-```
-http://localhost:8080/swagger-ui/index.html
 ```
 
 ## Collection

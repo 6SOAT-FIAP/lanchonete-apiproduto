@@ -11,9 +11,9 @@ public interface ProdutoUseCasePort {
 
     DadosProduto cadastrar(DadosProduto dadosProduto);
 
-    DadosProduto alterar(String id, DadosProduto dadosProduto);
+    DadosProduto alterar(Long id, DadosProduto dadosProduto);
 
-    Optional<Produto> remover(String id);
+    Optional<Produto> remover(Long id);
 
     List<DadosProduto> buscarPorCategoria(CategoriaEnum categoria);
 }

@@ -11,6 +11,7 @@ import java.net.URL;
 @Data
 @Builder
 public class Produto implements Serializable {
+
     @Serial
     private static final long serialVersionUID = 2257875953001651461L;
     private String id;

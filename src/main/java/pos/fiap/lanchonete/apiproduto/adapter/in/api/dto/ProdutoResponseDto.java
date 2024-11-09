@@ -15,6 +15,7 @@ import java.net.URL;
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProdutoResponseDto implements Serializable {
+
     @Serial
     private static final long serialVersionUID = -4825697705033933620L;
     private String id;
@@ -23,4 +24,5 @@ public class ProdutoResponseDto implements Serializable {
     private Double preco;
     private String descricao;
     private URL imagem;
+
 }
