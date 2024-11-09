@@ -73,17 +73,6 @@ class ProdutoDtoMapperTest {
                 .build();
     }
 
-    private ProdutoResponseDto getProdutoResponseDto() throws MalformedURLException {
-        return ProdutoResponseDto.builder()
-                .id("123")
-                .nome("Produto teste")
-                .categoria(CategoriaEnum.LANCHE)
-                .preco(12.5)
-                .descricao("Descrição do produto")
-                .imagem(new URL("http://example.com/imagem.png"))
-                .build();
-    }
-
     private DadosProduto getDadosProduto() throws MalformedURLException {
         return DadosProduto.builder()
                 .id("123")
