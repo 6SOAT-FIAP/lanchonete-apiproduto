@@ -12,7 +12,7 @@ resource "aws_ecs_task_definition" "api_task" {
   container_definitions = jsonencode([
     {
       name      = "api-container"
-      image     = "891377373643.dkr.ecr.us-east-1.amazonaws.com/lanchonete-apiproduto:latest"
+      image     = "${var.ecr_repository}:${var.image_tag}"
       portMappings = [
         {
           containerPort = 8080
