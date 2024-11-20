@@ -64,7 +64,7 @@ jobs:
         run: terraform validate -no-color
 
       - name: Terraform Plan
-        run: terraform plan -var "ecr_repository=$ECR_REPOSITORY" -out terraform.plan
+        run: terraform plan -out terraform.plan
 
       - name: Terraform Apply
-        run: terraform apply -var "ecr_repository=$ECR_REPOSITORY" -auto-approve
+        run: terraform apply -auto-approve

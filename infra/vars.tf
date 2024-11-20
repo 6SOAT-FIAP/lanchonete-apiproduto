@@ -13,13 +13,3 @@ variable "vpc_id" {
   description = "VPC ID"
   type        = string
 }
-
-variable "ecr_repository" {
-  description = "URI do repositório ECR"
-  type        = string
-}
-
-variable "image_tag" {
-  description = "Tag da imagem Docker no ECR"
-  type        = string
-}
