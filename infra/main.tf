@@ -78,12 +78,15 @@ resource "aws_lb_target_group" "api_target_group" {
   port     = 8080
   protocol = "HTTP"
   vpc_id   = var.vpc_id
+  target_type = "ip"
 
   health_check {
-    protocol = "HTTP"
-    port     = "8080"
-    path     = "/"
-    interval = 30
+    path                = "/"
+    interval            = 30
+    timeout             = 5
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+    matcher             = "200"
   }
 }
 
