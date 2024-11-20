@@ -24,21 +24,6 @@ jobs:
         working-directory: ${{ env.TF_WORKING_DIR }}
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
-
-      - name: Terraform Init
-        run: terraform init
-
-      - name: Terraform Validate
-        run: terraform validate -no-color
-
-      - name: Terraform Plan
-        run: terraform plan -out terraform.plan
-
       - name: Authenticate to ECR
         run: |
           aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin 891377373643.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
