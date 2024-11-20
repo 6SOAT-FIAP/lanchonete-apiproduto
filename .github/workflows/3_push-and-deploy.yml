@@ -1,0 +1,67 @@
+name: Build, Push, and Deploy ECS Service
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
+  AWS_REGION: 'us-east-1'
+  ECR_REPOSITORY: '891377373643.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/lanchonete-apiproduto'
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Authenticate to ECR
+        run: |
+          aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin ${{ env.ECR_REPOSITORY }}
+
+      - name: Build and Push Docker Image to ECR
+        run: |
+          IMAGE_TAG=$(date +%Y%m%d%H%M%S)
+          echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
+          docker build -t lanchonete-apiproduto:latest -f ./Dockerfile .
+          docker tag lanchonete-apiproduto:latest ${{ env.ECR_REPOSITORY }}:$IMAGE_TAG
+          docker push ${{ env.ECR_REPOSITORY }}:$IMAGE_TAG
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-and-push
+
+    env:
+      TF_WORKING_DIR: './infra'
+
+    defaults:
+      run:
+        shell: bash
+        working-directory: ${{ env.TF_WORKING_DIR }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Fmt
+        run: terraform fmt -check -no-color
+
+      - name: Terraform Validate
+        run: terraform validate -no-color
+
+      - name: Terraform Plan
+        run: terraform plan -var "image_tag=${{ env.IMAGE_TAG }}" -out terraform.plan
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -var "image_tag=${{ env.IMAGE_TAG }}"
