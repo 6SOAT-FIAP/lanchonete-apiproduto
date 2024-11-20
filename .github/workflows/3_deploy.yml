@@ -15,14 +15,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-    env:
-      TF_WORKING_DIR: './infra'
-
-    defaults:
-      run:
-        shell: bash
-        working-directory: ${{ env.TF_WORKING_DIR }}
-
     steps:
       - name: Authenticate to ECR
         run: |
