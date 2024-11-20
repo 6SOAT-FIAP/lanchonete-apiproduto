@@ -9,34 +9,19 @@ resource "aws_ecs_task_definition" "api_task" {
   cpu                      = "256"
   memory                   = "512"
 
-  container_definitions = jsonencode([
-    {
-      name      = "api-container"
-      image     = "891377373643.dkr.ecr.us-east-1.amazonaws.com/lanchonete-apiproduto:latest"
-      portMappings = [
-        {
-          containerPort = 8080
-          protocol      = "tcp"
-        }
-      ]
-      essential = true
-    }
-  ])
+  container_definitions = jsonencode([{
+    name      = "api-container"
+    image     = "891377373643.dkr.ecr.us-east-1.amazonaws.com/lanchonete-apiproduto:latest"
+    portMappings = [
+      {
+        containerPort = 8080
+        protocol      = "tcp"
+      }
+    ]
+    essential = true
+  }])
 
   execution_role_arn = "arn:aws:iam::891377373643:role/LabRole"
-}
-
-resource "aws_ecs_service" "api_service" {
-  name            = "api-service"
-  cluster         = aws_ecs_cluster.api_cluster.id
-  task_definition = aws_ecs_task_definition.api_task.arn
-  launch_type     = "FARGATE"
-
-  network_configuration {
-    subnets         = var.subnet_ids
-    security_groups = [aws_security_group.ecs_service_sg.id]
-    assign_public_ip = true
-  }
 }
 
 resource "aws_security_group" "ecs_service_sg" {
@@ -55,5 +40,60 @@ resource "aws_security_group" "ecs_service_sg" {
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_lb" "api_alb" {
+  name               = "api-alb"
+  internal           = false
+  load_balancer_type = "application"
+  security_groups    = [aws_security_group.ecs_service_sg.id]
+  subnets            = var.subnet_ids
+  enable_deletion_protection = false
+
+  enable_cross_zone_load_balancing = true
+}
+
+resource "aws_lb_target_group" "api_target_group" {
+  name     = "api-target-group"
+  port     = 8080
+  protocol = "HTTP"
+  vpc_id   = var.vpc_id
+
+  health_check {
+    protocol = "HTTP"
+    port     = "8080"
+    path     = "/"
+    interval = 30
+  }
+}
+
+resource "aws_lb_listener" "api_listener" {
+  load_balancer_arn = aws_lb.api_alb.arn
+  port              = "80"
+  protocol          = "HTTP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.api_target_group.arn
+  }
+}
+
+resource "aws_ecs_service" "api_service" {
+  name            = "api-service"
+  cluster         = aws_ecs_cluster.api_cluster.id
+  task_definition = aws_ecs_task_definition.api_task.arn
+  launch_type     = "FARGATE"
+
+  network_configuration {
+    subnets         = var.subnet_ids
+    security_groups = [aws_security_group.ecs_service_sg.id]
+    assign_public_ip = true
+  }
+
+  load_balancer {
+    target_group_arn = aws_lb_target_group.api_target_group.arn
+    container_name   = "api-container"
+    container_port   = 8080
   }
 }
