@@ -6,11 +6,8 @@ on:
       - main
 
 env:
-  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
   AWS_REGION: 'us-east-1'
-  ECR_REPOSITORY: '891377373643.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/lanchonete-apiproduto'
+  ECR_REPOSITORY: '891377373643.dkr.ecr.us-east-1.amazonaws.com/lanchonete-apiproduto'
 
 jobs:
   build-and-push:
@@ -22,15 +19,20 @@ jobs:
 
       - name: Authenticate to ECR
         run: |
-          aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin ${{ env.ECR_REPOSITORY }}
+          aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REPOSITORY
+        env:
+          AWS_REGION: ${{ env.AWS_REGION }}
+          ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
 
       - name: Build and Push Docker Image to ECR
         run: |
           IMAGE_TAG=$(date +%Y%m%d%H%M%S)
           echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
           docker build -t lanchonete-apiproduto:latest -f ./Dockerfile .
-          docker tag lanchonete-apiproduto:latest ${{ env.ECR_REPOSITORY }}:$IMAGE_TAG
-          docker push ${{ env.ECR_REPOSITORY }}:$IMAGE_TAG
+          docker tag lanchonete-apiproduto:latest $ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REPOSITORY:$IMAGE_TAG
+        env:
+          ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -38,6 +40,7 @@ jobs:
 
     env:
       TF_WORKING_DIR: './infra'
+      ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
 
     defaults:
       run:
