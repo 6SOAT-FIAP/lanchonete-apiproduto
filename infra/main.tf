@@ -98,8 +98,8 @@ resource "aws_lb_target_group" "api_target_group" {
     path                = "/health"
     interval            = 60
     timeout             = 10
-    healthy_threshold   = 2
-    unhealthy_threshold = 2
+    healthy_threshold   = 3
+    unhealthy_threshold = 3
     matcher             = "200"
   }
 }
