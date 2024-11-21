@@ -1,3 +1,9 @@
+# mover para infra
+resource "aws_cloudwatch_log_group" "ecs_log_group" {
+  name              = "/ecs/api-container"
+  retention_in_days = 7
+}
+
 resource "aws_ecs_cluster" "api_cluster" {
   name = "api-cluster"
 }
@@ -19,6 +25,14 @@ resource "aws_ecs_task_definition" "api_task" {
       }
     ]
     essential = true
+    logConfiguration = {
+      logDriver = "awslogs"
+      options = {
+        awslogs-group         = "/ecs/api-container"
+        awslogs-region        = "us-east-1"
+        awslogs-stream-prefix = "ecs"
+      }
+    }
   }])
 
   execution_role_arn = "arn:aws:iam::891377373643:role/LabRole"
@@ -106,10 +120,11 @@ resource "aws_ecs_service" "api_service" {
   cluster         = aws_ecs_cluster.api_cluster.id
   task_definition = aws_ecs_task_definition.api_task.arn
   launch_type     = "FARGATE"
+  desired_count   = 1
 
   network_configuration {
-    subnets         = var.subnet_ids
-    security_groups = [aws_security_group.ecs_service_sg.id]
+    subnets          = var.subnet_ids
+    security_groups  = [aws_security_group.ecs_service_sg.id]
     assign_public_ip = true
   }
 
