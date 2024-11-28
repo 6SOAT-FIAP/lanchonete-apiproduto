@@ -15,7 +15,7 @@ resource "aws_ecs_task_definition" "api_task" {
     image     = "733005211464.dkr.ecr.us-east-1.amazonaws.com/lanchonete-apiproduto:latest"
     portMappings = [
       {
-        containerPort = 8080
+        containerPort = 8081
         protocol      = "tcp"
       }
     ]
@@ -38,8 +38,8 @@ resource "aws_security_group" "ecs_service_sg" {
   vpc_id = var.vpc_id
 
   ingress {
-    from_port   = 8080
-    to_port     = 8080
+    from_port   = 8081
+    to_port     = 8081
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -54,7 +54,7 @@ resource "aws_security_group" "ecs_service_sg" {
 
 resource "aws_lb_target_group" "api_target_group" {
   name     = "api-produto-target-group"
-  port     = 8080
+  port     = 8081
   protocol = "HTTP"
   vpc_id   = var.vpc_id
   target_type = "ip"
@@ -96,7 +96,7 @@ resource "aws_ecs_service" "api_service" {
   load_balancer {
     target_group_arn = aws_lb_target_group.api_target_group.arn
     container_name   = "api-container-produto"
-    container_port   = 8080
+    container_port   = 8081
   }
 }
 
