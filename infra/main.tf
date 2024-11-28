@@ -101,12 +101,12 @@ resource "aws_ecs_service" "api_service" {
 }
 
 resource "aws_db_subnet_group" "lanchonete_db_subnet_group" {
-  name       = "lanchonete-db-subnet-group"
+  name       = "lanchonete-db-produto-subnet-group"
   subnet_ids = var.subnet_ids
 }
 
 resource "aws_security_group" "lanchonete_db_sg" {
-  name        = "lanchonete_db_sg"
+  name        = "lanchonete_db_produto_sg"
   description = "Acesso ao RDS PostgreSQL"
   vpc_id      = var.vpc_id
 

@@ -2,7 +2,7 @@
 
 Segue abaixo instruções para execução
 
-## 2.1 Cadastrar produto
+## - Cadastrar produto
 
 Na sequência, deve-se cadastrar os produtos:
 
@@ -17,13 +17,13 @@ Na sequência, deve-se cadastrar os produtos:
 }
 ```
 
-## 2.2 Consultar produtos pela categoria
+## - Consultar produtos pela categoria
 
 É possível consultar os produtos pela categoria:
 
 [GET] */api/v1/produto/{categoria}*
 
-## 2.3 Editar produto
+## - Editar produto
 
 É possível editar um produto com o seu id:
 
@@ -38,7 +38,7 @@ Na sequência, deve-se cadastrar os produtos:
 }
 ```
 
-## 2.4 Remover produto
+## - Remover produto
 
 É possível remover um produto com o seu id:
 
