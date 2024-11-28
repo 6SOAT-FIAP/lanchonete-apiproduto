@@ -13,3 +13,27 @@ variable "vpc_id" {
   description = "VPC ID"
   type        = string
 }
+
+variable "ecs_cluster_arn" {
+  description = "ID do cluster ECS"
+  type        = string
+}
+
+variable "load_balancer_arn" {
+  description = "ARN do Load Balancer"
+  type        = string
+}
+
+variable "db_username" {
+  description = "Username RDS"
+  type        = string
+  sensitive   = true
+  default     = "root"
+}
+
+variable "db_password" {
+  description = "Password RDS"
+  type        = string
+  sensitive   = true
+  default     = "root1234"
+}
