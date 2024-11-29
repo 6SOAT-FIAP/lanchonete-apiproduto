@@ -24,6 +24,11 @@ variable "load_balancer_arn" {
   type        = string
 }
 
+variable "api_listener_arn" {
+  description = "O ARN do listener do Load Balancer"
+  type        = string
+}
+
 variable "db_username" {
   description = "Username RDS"
   type        = string
