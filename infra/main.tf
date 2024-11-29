@@ -69,17 +69,17 @@ resource "aws_lb_target_group" "api_target_group" {
   }
 }
 
-resource "aws_lb_listener_rule" "pagamento_rule" {
+resource "aws_lb_listener_rule" "produto_rule" {
   listener_arn = var.api_listener_arn
   priority     = 10
 
-  conditions {
+  condition {
     path_pattern {
       values = ["/api/v1/produto*"]
     }
   }
 
-  actions {
+  action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.api_target_group.arn
   }
