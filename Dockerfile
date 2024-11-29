@@ -20,7 +20,7 @@ WORKDIR /app
 COPY --from=builder /app/target/lanchonete-apiproduto-0.0.1.jar .
 
 # Expondo a porta que o aplicativo está ouvindo
-EXPOSE 8080
+EXPOSE 8081
 
 # Comando para iniciar o aplicativo
 CMD ["java", "-jar", "-Dspring.profiles.active=dev", "lanchonete-apiproduto-0.0.1.jar"]
