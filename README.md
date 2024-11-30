@@ -17,6 +17,14 @@ Este serviço inclui as seguintes funcionalidades:
 - Criar, editar e remover produtos
 - Buscar produtos por categoria
 
+## Desenho da arquitetura
+
+Abaixo ilustra-se o desenho da arquitetura:
+
+<p align = "center">
+  <img src = assets/arquitetura/arquitetura_servicos.svg>
+</p>
+
 ## 💻 Pré-requisitos
 
 Antes de começar, verifique se você atendeu aos seguintes requisitos:
