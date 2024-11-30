@@ -132,4 +132,54 @@ class ProdutoControllerTest {
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
+
+    @Test
+    void testBuscarPorIds_Sucesso() {
+        List<Long> ids = List.of(1L, 2L, 3L);
+        DadosProduto dadosProduto = DadosProduto.builder().build();
+        ProdutoResponseDto produtoResponseDto = ProdutoResponseDto.builder().build();
+
+        when(produtoUseCasePort.buscarPorIds(ids)).thenReturn(List.of(dadosProduto));
+        when(dtoMapper.toListProdutoResponseDtoFromListDadosProduto(anyList())).thenReturn(List.of(produtoResponseDto));
+
+        ResponseEntity<List<ProdutoResponseDto>> response = produtoController.buscarPorIds(ids);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertFalse(response.getBody().isEmpty());
+        verify(produtoUseCasePort).buscarPorIds(ids);
+        verify(dtoMapper).toListProdutoResponseDtoFromListDadosProduto(anyList());
+    }
+
+    @Test
+    void testBuscarPorIds_NenhumProdutoEncontrado() {
+        List<Long> ids = List.of(1L, 2L, 3L);
+
+        when(produtoUseCasePort.buscarPorIds(ids)).thenReturn(List.of());
+
+        ResponseEntity<List<ProdutoResponseDto>> response = produtoController.buscarPorIds(ids);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        verify(produtoUseCasePort).buscarPorIds(ids);
+    }
+
+    @Test
+    void testBuscarPorIds_ListaVazia() {
+        List<Long> ids = List.of();
+
+        ResponseEntity<List<ProdutoResponseDto>> response = produtoController.buscarPorIds(ids);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertTrue(response.getBody().isEmpty());
+    }
+
+    @Test
+    void testBuscarPorIds_NullIds() {
+        List<Long> ids = null;
+
+        ResponseEntity<List<ProdutoResponseDto>> response = produtoController.buscarPorIds(ids);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertTrue(response.getBody().isEmpty());
+    }
 }

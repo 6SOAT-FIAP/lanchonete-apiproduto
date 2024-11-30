@@ -88,4 +88,27 @@ public class ProdutoController {
         log.info("List Produto response: {} por categoria: {}", produtoResponseList, categoria);
         return ResponseEntity.status(OK).body(produtoResponseList);
     }
+
+    @ResponseStatus(OK)
+    @GetMapping("/")
+    public ResponseEntity<List<ProdutoResponseDto>> buscarPorIds(@RequestParam List<Long> ids) {
+        log.info("IDs request: {}", ids);
+
+        if (ids == null || ids.isEmpty()) {
+            log.error("IDs não fornecidos ou lista vazia.");
+            return ResponseEntity.status(BAD_REQUEST).body(List.of());
+        }
+
+        var produtosList = produtoUseCasePort.buscarPorIds(ids);
+
+        if (produtosList.isEmpty()) {
+            log.error("Nenhum produto encontrado para os IDs: {}", ids);
+            return ResponseEntity.status(NOT_FOUND).build();
+        }
+
+        var produtoResponseList = dtoMapper.toListProdutoResponseDtoFromListDadosProduto(produtosList);
+
+        log.info("List Produto response: {} para IDs: {}", produtoResponseList, ids);
+        return ResponseEntity.status(OK).body(produtoResponseList);
+    }
 }

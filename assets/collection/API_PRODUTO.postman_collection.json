@@ -40,7 +40,7 @@
 					"response": []
 				},
 				{
-					"name": "Buscar produtos por categoria Copy",
+					"name": "Buscar produtos por categoria",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -62,7 +62,43 @@
 					"response": []
 				},
 				{
-					"name": "Remover produto Copy",
+					"name": "Buscar produtos por ids",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/v1/produto/?ids=1&ids=2&ids=3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"produto",
+								""
+							],
+							"query": [
+								{
+									"key": "ids",
+									"value": "1"
+								},
+								{
+									"key": "ids",
+									"value": "2"
+								},
+								{
+									"key": "ids",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remover produto",
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -172,6 +208,45 @@
 								"v1",
 								"produto",
 								"Lanche"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar produtos por ids",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://lanchonete-alb-436522991.us-east-1.elb.amazonaws.com/api/v1/produto/?ids=1&ids=2&ids=3",
+							"protocol": "http",
+							"host": [
+								"lanchonete-alb-436522991",
+								"us-east-1",
+								"elb",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"produto",
+								""
+							],
+							"query": [
+								{
+									"key": "ids",
+									"value": "1"
+								},
+								{
+									"key": "ids",
+									"value": "2"
+								},
+								{
+									"key": "ids",
+									"value": "3"
+								}
 							]
 						}
 					},

@@ -94,4 +94,17 @@ public class ProdutoMySQLAdapter implements ProdutoMySQLAdapterPort {
 
         return Optional.of(produto);
     }
+
+    @Override
+    public List<Produto> buscarPorIds(List<Long> ids) {
+        var methodName = "buscarPorIds";
+        log.info(String.format(STRING_LOG_FORMAT, SERVICE_NAME, methodName, INICIO), ids);
+
+        var produtoEntities = produtoRepository.findAllByIdIn(ids);
+        var produtos = produtoEntityMapper.toListProduto(produtoEntities);
+
+        log.info(String.format(STRING_LOG_FORMAT, SERVICE_NAME, methodName, FIM), produtos);
+
+        return produtos;
+    }
 }

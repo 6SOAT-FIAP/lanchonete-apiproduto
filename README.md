@@ -14,8 +14,9 @@ aos clientes selecionar e fazer pedidos sem precisar interagir com um atendente.
 
 Este serviço inclui as seguintes funcionalidades:
 
-- Criar, editar e remover produtos
-- Buscar produtos por categoria
+- Criar, editar e remover produtos;
+- Buscar produtos por categoria;
+- Buscar produtos por ids.
 
 ## Desenho da arquitetura
 

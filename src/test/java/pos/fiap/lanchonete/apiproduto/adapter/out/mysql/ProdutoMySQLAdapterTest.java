@@ -105,4 +105,26 @@ class ProdutoMySQLAdapterTest {
 
         assertFalse(resultado.isPresent());
     }
+
+    @Test
+    void testBuscarPorIds() {
+        List<Long> ids = List.of(1L, 2L, 3L);
+        ProdutoEntity produtoEntity1 = new ProdutoEntity(1L, "Produto 1", CategoriaEnum.BEBIDA, 10.0, "Descrição 1", null);
+        ProdutoEntity produtoEntity2 = new ProdutoEntity(2L, "Produto 2", CategoriaEnum.LANCHE, 12.0, "Descrição 2", null);
+        ProdutoEntity produtoEntity3 = new ProdutoEntity(3L, "Produto 3", CategoriaEnum.BEBIDA, 15.0, "Descrição 3", null);
+
+        when(produtoRepository.findAllByIdIn(ids)).thenReturn(List.of(produtoEntity1, produtoEntity2, produtoEntity3));
+        when(produtoEntityMapper.toListProduto(List.of(produtoEntity1, produtoEntity2, produtoEntity3)))
+                .thenReturn(List.of(produto, produto, produto));
+
+        List<Produto> resultado = produtoMySQLAdapter.buscarPorIds(ids);
+
+        assertNotNull(resultado);
+        assertEquals(3, resultado.size());
+        assertEquals("Produto", resultado.get(0).getNome());
+        assertEquals("Produto", resultado.get(1).getNome());
+        assertEquals("Produto", resultado.get(2).getNome());
+        verify(produtoRepository).findAllByIdIn(ids);
+        verify(produtoEntityMapper).toListProduto(List.of(produtoEntity1, produtoEntity2, produtoEntity3));
+    }
 }

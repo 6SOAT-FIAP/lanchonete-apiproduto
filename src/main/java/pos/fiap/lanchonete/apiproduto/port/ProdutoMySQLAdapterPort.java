@@ -17,4 +17,6 @@ public interface ProdutoMySQLAdapterPort {
     List<Produto> buscarProdutoPorCategoria(CategoriaEnum categoria);
 
     Optional<Produto> buscarPorId(Long id);
+
+    List<Produto> buscarPorIds(List<Long> ids);
 }

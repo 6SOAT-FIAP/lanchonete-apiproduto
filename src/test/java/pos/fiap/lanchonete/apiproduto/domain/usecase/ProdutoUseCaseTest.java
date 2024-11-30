@@ -158,4 +158,70 @@ class ProdutoUseCaseTest {
         verify(produtoMySQLAdapter).buscarProdutoPorCategoria(CategoriaEnum.BEBIDA);
         verify(produtoMapper).toListDadosProduto(List.of(produto));
     }
+
+    @Test
+    void testBuscarPorIds() {
+        List<Long> ids = List.of(1L, 2L, 3L);
+
+        Produto produto1 = Produto.builder()
+                .id("1")
+                .nome("Produto 1")
+                .categoria(CategoriaEnum.BEBIDA)
+                .preco(10.0)
+                .descricao("Descrição 1")
+                .build();
+        Produto produto2 = Produto.builder()
+                .id("2")
+                .nome("Produto 2")
+                .categoria(CategoriaEnum.LANCHE)
+                .preco(12.0)
+                .descricao("Descrição 2")
+                .build();
+        Produto produto3 = Produto.builder()
+                .id("3")
+                .nome("Produto 3")
+                .categoria(CategoriaEnum.BEBIDA)
+                .preco(15.0)
+                .descricao("Descrição 3")
+                .build();
+
+        DadosProduto dadosProduto1 = DadosProduto.builder()
+                .id("1")
+                .nome("Produto 1")
+                .categoria(CategoriaEnum.BEBIDA)
+                .preco(10.0)
+                .descricao("Descrição 1")
+                .build();
+        DadosProduto dadosProduto2 = DadosProduto.builder()
+                .id("2")
+                .nome("Produto 2")
+                .categoria(CategoriaEnum.LANCHE)
+                .preco(12.0)
+                .descricao("Descrição 2")
+                .build();
+        DadosProduto dadosProduto3 = DadosProduto.builder()
+                .id("3")
+                .nome("Produto 3")
+                .categoria(CategoriaEnum.BEBIDA)
+                .preco(15.0)
+                .descricao("Descrição 3")
+                .build();
+
+        when(produtoMySQLAdapter.buscarPorIds(ids)).thenReturn(List.of(produto1, produto2, produto3));
+        when(produtoMapper.toListDadosProduto(List.of(produto1, produto2, produto3)))
+                .thenReturn(List.of(dadosProduto1, dadosProduto2, dadosProduto3));
+
+        List<DadosProduto> result = produtoUseCase.buscarPorIds(ids);
+
+        assertNotNull(result);
+        assertEquals(3, result.size());
+        assertEquals(dadosProduto1.getId(), result.get(0).getId());
+        assertEquals(dadosProduto2.getId(), result.get(1).getId());
+        assertEquals(dadosProduto3.getId(), result.get(2).getId());
+        assertEquals(dadosProduto1.getNome(), result.get(0).getNome());
+        assertEquals(dadosProduto2.getNome(), result.get(1).getNome());
+        assertEquals(dadosProduto3.getNome(), result.get(2).getNome());
+        verify(produtoMySQLAdapter).buscarPorIds(ids);
+        verify(produtoMapper).toListDadosProduto(List.of(produto1, produto2, produto3));
+    }
 }

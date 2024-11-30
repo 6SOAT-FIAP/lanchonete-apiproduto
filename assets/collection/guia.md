@@ -23,6 +23,12 @@ Na sequência, deve-se cadastrar os produtos:
 
 [GET] */api/v1/produto/{categoria}*
 
+## - Consultar produtos por ids
+
+É possível consultar os produtos pelos ids:
+
+[GET] */api/v1/produto/?ids=1&ids=2&ids=3*
+
 ## - Editar produto
 
 É possível editar um produto com o seu id:
