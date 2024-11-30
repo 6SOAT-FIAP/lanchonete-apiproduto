@@ -13,7 +13,7 @@ public class RemoverProdutoInexistente {
 
     private HttpResponse<String> response;
 
-    @Given("que um produto com o ID 999 não existe no sistema")
+    @Given("que um produto com o ID 808080808080 não existe no sistema")
     public void que_um_produto_com_o_id_nao_existe_no_sistema() {
 
     }

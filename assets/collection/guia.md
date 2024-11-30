@@ -1,6 +1,6 @@
 # Guia para execução
 
-Segue abaixo instruções para execução
+Segue abaixo instruções para execução.
 
 ## - Cadastrar produto
 

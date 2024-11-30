@@ -34,9 +34,23 @@ Execute o docker compose para subir o banco de dados:
 docker-compose up -d
 ```
 
+Variáveis de ambiente:
+
+| Variável      | Descrição                                        |
+|---------------|--------------------------------------------------|
+| `DB_USERNAME` | Nome de usuário para conectar ao banco de dados. |
+| `DB_PASSWORD` | Senha para o usuário do banco de dados.          |
+| `DB_URL`      | URL de conexão JDBC para o banco de dados        |
+
+## Como executar o Cucumber localmente
+
+1. Execute o docker compose;
+2. Suba o serviço em um console;
+3. Em outro execute o CucumberRunnerTest.
+
 ## Collection
 
-Acesse a [**collection**](assets/collection/Lanchonete.postman_collection) do Postman com todas as APIs desenvolvidas.
+Acesse a [**collection**](assets/collection/API_PRODUTO.postman_collection) do Postman com todas as APIs desenvolvidas.
 
 ## Guia instrutivo
 
