@@ -85,7 +85,6 @@ resource "aws_lb_listener_rule" "produto_rule" {
   }
 }
 
-
 resource "aws_ecs_service" "api_service" {
   name            = "api-produto-service"
   cluster         = var.ecs_cluster_arn
