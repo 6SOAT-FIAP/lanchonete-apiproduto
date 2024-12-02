@@ -16,4 +16,6 @@ public interface ProdutoUseCasePort {
     Optional<Produto> remover(Long id);
 
     List<DadosProduto> buscarPorCategoria(CategoriaEnum categoria);
+
+    List<DadosProduto> buscarPorIds(List<Long> ids);
 }

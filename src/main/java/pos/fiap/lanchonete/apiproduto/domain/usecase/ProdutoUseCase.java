@@ -53,4 +53,12 @@ public class ProdutoUseCase implements ProdutoUseCasePort {
         var produtoList = produtoMySQLAdapter.buscarProdutoPorCategoria(categoria);
         return produtoMapper.toListDadosProduto(produtoList);
     }
+
+    @Override
+    public List<DadosProduto> buscarPorIds(List<Long> ids) {
+        var produtos = produtoMySQLAdapter.buscarPorIds(ids);
+        var dadosProdutoList = produtoMapper.toListDadosProduto(produtos);
+        return dadosProdutoList;
+    }
+
 }
